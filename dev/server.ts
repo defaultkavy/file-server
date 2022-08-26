@@ -18,7 +18,6 @@ app.get('/images/*', async (req, res) => {
                 res.sendFile(newFilePath);
                 return;
             }
-            console.debug(fs.accessSync(dirPath));
             const result = await sharp(dirPath).resize(+size).toFile(newFilePath);
             res.sendFile(newFilePath);
             return
