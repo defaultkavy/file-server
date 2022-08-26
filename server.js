@@ -26,7 +26,7 @@ app.get('/images/*', (req, res) => __awaiter(void 0, void 0, void 0, function* (
             const newFilePath = path_1.default.resolve(`${pathObj.dir}/${size}/${pathObj.base}`);
             const newDirPath = path_1.default.resolve(`${pathObj.dir}/${size}`);
             if (!fs_1.default.existsSync(newDirPath))
-                fs_1.default.mkdirSync(newDirPath);
+                fs_1.default.mkdirSync(newDirPath, { recursive: true });
             else if (fs_1.default.existsSync(newFilePath)) {
                 res.sendFile(newFilePath);
                 return;

@@ -13,7 +13,7 @@ app.get('/images/*', async (req, res) => {
         if (size) {
             const newFilePath = path.resolve(`${pathObj.dir}/${size}/${pathObj.base}`);
             const newDirPath = path.resolve(`${pathObj.dir}/${size}`);
-            if (!fs.existsSync(newDirPath)) fs.mkdirSync(newDirPath);
+            if (!fs.existsSync(newDirPath)) fs.mkdirSync(newDirPath, {recursive: true});
             else if (fs.existsSync(newFilePath)) {
                 res.sendFile(newFilePath);
                 return;
