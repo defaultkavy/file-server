@@ -7,7 +7,7 @@ const app = express();
 
 app.get('/images/*', async (req, res) => {
     try {
-        const dirPath = path.resolve(__dirname + req.path);
+        const dirPath = path.resolve(__dirname + '/..' + req.path);
         const pathObj = path.parse(req.path);
         const size = req.query.size;
         if (size) {

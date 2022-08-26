@@ -19,7 +19,7 @@ const fs_1 = __importDefault(require("fs"));
 const app = (0, express_1.default)();
 app.get('/images/*', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const dirPath = path_1.default.resolve(__dirname + req.path);
+        const dirPath = path_1.default.resolve(__dirname + '/..' + req.path);
         const pathObj = path_1.default.parse(req.path);
         const size = req.query.size;
         if (size) {
