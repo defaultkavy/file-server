@@ -24,6 +24,7 @@ app.get('/images/*', async (req, res) => {
             res.sendFile(newFilePath);
             return
         }
+        console.debug(dirPath)
         res.sendFile(path.join(dirPath));
     } catch(err) {
         console.error(err);
