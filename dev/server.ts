@@ -8,7 +8,7 @@ const app = express();
 app.get('/images/*', async (req, res) => {
     try {
         const dirPath = path.resolve(__dirname + '/..' + req.path);
-        const pathObj = path.parse(req.path);
+        const pathObj = path.parse(dirPath);
         const size = req.query.size;
         if (size) {
             const newFilePath = path.resolve(`${pathObj.dir}/${size}/${pathObj.base}`);
@@ -18,9 +18,8 @@ app.get('/images/*', async (req, res) => {
                 res.sendFile(newFilePath);
                 return;
             }
-            console.time('Image');
+            console.debug(fs.accessSync(dirPath));
             const result = await sharp(dirPath).resize(+size).toFile(newFilePath);
-            console.timeEnd('Image');
             res.sendFile(newFilePath);
             return
         }

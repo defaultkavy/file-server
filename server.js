@@ -20,7 +20,7 @@ const app = (0, express_1.default)();
 app.get('/images/*', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const dirPath = path_1.default.resolve(__dirname + '/..' + req.path);
-        const pathObj = path_1.default.parse(req.path);
+        const pathObj = path_1.default.parse(dirPath);
         const size = req.query.size;
         if (size) {
             const newFilePath = path_1.default.resolve(`${pathObj.dir}/${size}/${pathObj.base}`);
@@ -31,9 +31,8 @@ app.get('/images/*', (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 res.sendFile(newFilePath);
                 return;
             }
-            console.time('Image');
+            console.debug(fs_1.default.accessSync(dirPath));
             const result = yield (0, sharp_1.default)(dirPath).resize(+size).toFile(newFilePath);
-            console.timeEnd('Image');
             res.sendFile(newFilePath);
             return;
         }
