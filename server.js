@@ -37,7 +37,7 @@ app.get('/images/*', (req, res) => __awaiter(void 0, void 0, void 0, function* (
             res.sendFile(newFilePath);
             return;
         }
-        res.sendFile(dirPath);
+        res.sendFile(path_1.default.join(dirPath));
     }
     catch (err) {
         console.error(err);
