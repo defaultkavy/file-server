@@ -22,7 +22,7 @@ app.get('/images/*', (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const dirPath = path_1.default.resolve(__dirname + '/..' + req.path);
         const pathObj = path_1.default.parse(dirPath);
         const size = req.query.size;
-        if (size) {
+        if (size && fs_1.default.existsSync(dirPath)) {
             const newFilePath = path_1.default.resolve(`${pathObj.dir}/${size}/${pathObj.base}`);
             const newDirPath = path_1.default.resolve(`${pathObj.dir}/${size}`);
             if (!fs_1.default.existsSync(newDirPath))
