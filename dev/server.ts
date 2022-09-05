@@ -9,7 +9,7 @@ app.get('/images/*', async (req, res) => {
     try {
         const dirPath = path.resolve(__dirname + '/..' + req.path);
         const pathObj = path.parse(dirPath);
-        const size = req.query.size;
+        const size = req.query.size as unknown as number | undefined;
         if (size && fs.existsSync(dirPath)) {
             const newFilePath = path.resolve(`${pathObj.dir}/${size}/${pathObj.base}`);
             const newDirPath = path.resolve(`${pathObj.dir}/${size}`);
@@ -18,7 +18,18 @@ app.get('/images/*', async (req, res) => {
                 res.sendFile(newFilePath);
                 return;
             }
-            const result = await sharp(dirPath).resize(+size).toFile(newFilePath);
+            const image = sharp(dirPath)
+            const meta = await image.metadata();
+            let width: null | number = null, height: null | number = null
+            if (meta.width && meta.height) {
+                if (meta.width < meta.height) {
+                    width = +size;
+                } else if (meta.width > meta.height) {
+                    height = +size;
+                } else width = +size
+            }
+
+            const result = await sharp(dirPath).resize(width, height).toFile(newFilePath);
             res.sendFile(newFilePath);
             return
         }

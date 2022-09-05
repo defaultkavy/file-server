@@ -31,7 +31,20 @@ app.get('/images/*', (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 res.sendFile(newFilePath);
                 return;
             }
-            const result = yield (0, sharp_1.default)(dirPath).resize(+size).toFile(newFilePath);
+            const image = (0, sharp_1.default)(dirPath);
+            const meta = yield image.metadata();
+            let width = null, height = null;
+            if (meta.width && meta.height) {
+                if (meta.width < meta.height) {
+                    width = +size;
+                }
+                else if (meta.width > meta.height) {
+                    height = +size;
+                }
+                else
+                    width = +size;
+            }
+            const result = yield (0, sharp_1.default)(dirPath).resize(width, height).toFile(newFilePath);
             res.sendFile(newFilePath);
             return;
         }
